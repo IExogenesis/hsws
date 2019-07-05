@@ -52,25 +52,40 @@ car = Cars93
 # a. Print the structure of the Cars93 data frame. 
 # What are the levels of car Type? of DriveTrain?
 
+str(car)
+levels(car)
+
 # b. Use the table() function to: 
 # Make a contingency table of car Type. Now make a contingency table of DriveTrain.
 # Display your tables. What do they tell you? How does table() differ from levels()?
 
+table(car$Make, car$Type)
+table(car$DriveTrain, car$Type)
+
 # c. Make a contingency table that combines both car Type and DriveTrain. 
 # Display your table, and explain the result.
+
+table(car$Type, car$DriveTrain)
 
 # d. Find the RPM column in the cars data frame. Display it.
 # How many values are found in the RPM column?
 
+data.frame(car$Make, car$RPM)
+
 # e. Now run the unique() function on the cars RPM column.
 # Display the result. How many values are in the result?
-#
+
+length(unique(car$RPM))
+# 24
+
 # What can you infer unique() does? Run ?unique to find out more.
+# Creates a vector of all the unique integer values in the column
 
 
 # f. What happens if you try to run levels() on the RPM data? Why?
 # What happens if you run unique() on the car Type data?
-
+levels(car$RPM)
+unique(car$Type)
 
 # ------------------------------------------------------------------
 
@@ -81,10 +96,22 @@ miles =  c(65311, 65624, 65908, 66219, 66499, 66821, 67145, 67447)
 # a. Use the function diff() on the miles data and assign the result to a variable called x. 
 # What is the type of the result? What does it mean?
 
+x=diff(miles)
+
+
 # b. Use the function length() to find the lengths of the miles and x vectors. 
+
+length(x)
+length(miles)
 
 # c. Use R functions to find the maximum and minimum number of miles between fill-ups, the 
 # average number of miles between fill-ups, the standard deviation, and a statistical summary.
+
+min(x)
+max(x)
+mean(x)
+sd(x)
+summary(x)
 
 # d. Run the following command to create a boxplot of the miles between fill-ups. The bottom of the box 
 # is Q1, the top of the box is Q3, the line in the center of the box is the median, and the "whiskers" 
@@ -99,6 +126,8 @@ boxplot(x, ylab="Distance between fill-ups, in miles", main="Milage at fill-ups"
 # a. Enter this data into a vector called commute. Use R functions to find the longest and shortest  
 # commute times, the average, and a statistical summary.
 
+commute = c(17, 16, 20, 24, 22, 15, 21, 15, 17, 22)
+
 # b. Run the following command to create a boxplot of the commute times. The bottom of the box 
 # is Q1, the top of the box is Q3, the line in the center of the box is the median, and the "whiskers" 
 # extend to the min and max:
@@ -108,6 +137,7 @@ boxplot(commute, ylab="Commute time/minutes", main="Original commute data")
 # c. Suppose the 24 was a mistake; it should have been 18. How can you fix this? Do so, and then find 
 # the new average. Hint: Index into the vector, then use an assignment statement to fix this mistake.
 
+commute[which(commute == 24)] = 18
 
 # d. Now that you have fixed the datapoint, re-run the boxplot and the summary command. 
 summary(commute)
@@ -115,33 +145,46 @@ boxplot(commute, ylab="Commute time/minutes", main="Corrected commute data")
 
 
 # e. How many times was your commute 20 minutes or more? To answer this you can try:
-#   sum( commute >= 20 )
+  sum( commute >= 20 )
 # How does this work?
-
+# Returns all the total number of times the values were over 20
 
 # f. What percent of your commutes are less than 17 minutes? How can you answer this with R?
+sum(commute<=17)/sum(commute)  * 100
+
 
 # ----------------------------------------------------------
 
-# 4. Your cell phone bill varies from month to month. Suppose that your bills had the following monthly 
+# 4. Your cell phone bob varies from month to month. Suppose that your bills had the following monthly 
 # amounts last year:
 # 46 33 39 37 46 30 48 32 49 35 30 48
 
-# a. Enter this data into a variable called bill. 
+# a. Enter this data into a variable called bob. 
 
+bob = c(46, 33, 39, 37, 46, 30, 48, 32, 49, 35, 30, 48)
 
 # b. Find the total amount, and the average amount, that you spent last year on cell phone bills. 
 
+sum(bob)
+mean(bob)
 
-# c. What is the smallest amount you spent on your phone bill last year? What is the largest? Assuming 
+
+# c. What is the smallest amount you spent on your phone bob last year? What is the largest? Assuming 
 # the months are entered in order, which months were these? Hint: use the which() function to find the 
 # months.
 
+min(bob)
+max(bob)
+which(bob == min(bob))
+which(bob == max(bob))
 
 # d. Run the following calculation, and explain its result:
-range(bill)[2] - range(bill)[1]
+range(bob)[2] - range(bob)[1]
+# Tells the difference between the min and the max
 
 # e. How many months was the amount greater than $40? What percentage was this?
+length(which(bob >=40))
+length(which(bob >=40)) / length(bob) * 100
 
 # ----------------------------------------------------------
 
@@ -156,6 +199,8 @@ s = data.frame(Gender=survey$Sex,
 # which(), range(), and summary() will be useful for the following questions:			         
 			          
 # a. What is the age range for females? For males? Tip: use the which() function.
+
+range(s$Age, (which(s$Gender == Female) is.na(s$Gender) == FALSE))
 
 # b. How many subjects reported their height in Metric units, how many in Imperial units, 
 # and how many did not specify units?
